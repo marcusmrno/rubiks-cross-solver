@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+pdb_cache.pkl
+solves.csv
+correlation.png
+docs/

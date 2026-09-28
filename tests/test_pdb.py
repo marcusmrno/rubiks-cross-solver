@@ -1,17 +1,9 @@
 from collections import Counter
 
-import pytest
-
 import cube.pdb
-from cube.pdb import build_pdb, save_pdb, load_pdb, load_or_build_pdb
+from cube.pdb import save_pdb, load_pdb, load_or_build_pdb
 from cube.moves import MOVES, solved_edges, apply_move
 from cube.cross import cross_key
-
-
-@pytest.fixture(scope="module")
-def dist():
-    """Run the full BFS exactly once for this file; every test reuses the result."""
-    return build_pdb()
 
 
 def test_full_distance_histogram(dist):

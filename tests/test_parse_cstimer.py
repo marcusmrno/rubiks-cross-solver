@@ -1,28 +1,14 @@
-import json
-
 import pytest
 
 from analysis.parse_cstimer import load_solves
 
 
-def _export(tmp_path, sessions, session_data):
-    """Write a csTimer-shaped export: one "sessionN" list per session, plus
-    "properties"["sessionData"], which csTimer stores as a JSON *string*.
-    """
-    data = dict(sessions)
-    data["properties"] = {"sessionData": json.dumps(session_data)}
-    path = tmp_path / "export.txt"
-    path.write_text(json.dumps(data))
-    return str(path)
-
-
-def test_plus2_adds_penalty_and_dnf_is_dropped(tmp_path):
+def test_plus2_adds_penalty_and_dnf_is_dropped(write_export):
     """csTimer stores a +2 as [2000, raw_time] and adds the two when it shows
     the time, so the parser must add them too. A DNF ([-1, raw_time]) has no
     valid time and is dropped.
     """
-    path = _export(
-        tmp_path,
+    path = write_export(
         {"session1": [
             [[0, 12345], "R U R' U'", "", 1548020659],
             [[2000, 12345], "F2 R2 U'", "slow", 1548020702],
@@ -37,14 +23,13 @@ def test_plus2_adds_penalty_and_dnf_is_dropped(tmp_path):
     ]
 
 
-def test_only_wca_3x3_sessions_are_kept(tmp_path):
+def test_only_wca_3x3_sessions_are_kept(write_export):
     """Sessions are picked by scramble type. A session with no scrType is 3x3
     (csTimer's default, like the real "3x3" session). The 2x2 scramble uses
     only valid 3x3 moves, so checking the moves alone would let it through.
     One-handed 3x3 is left out because its times aren't comparable.
     """
-    path = _export(
-        tmp_path,
+    path = write_export(
         {
             "session1": [[[0, 13009], "R U2 F'", "", 1548020659]],
             "session2": [[[0, 4188], "R U' F2 R'", "", 1548490391]],
@@ -62,12 +47,11 @@ def test_only_wca_3x3_sessions_are_kept(tmp_path):
     assert [s["session"] for s in load_solves(path)] == ["session1", "session4"]
 
 
-def test_unexpected_time_shape_fails_loudly(tmp_path):
+def test_unexpected_time_shape_fails_loudly(write_export):
     """Multi-phase timing adds more numbers to [penalty, time]. That format
     isn't confirmed, so the parser should crash instead of guessing.
     """
-    path = _export(
-        tmp_path,
+    path = write_export(
         {"session1": [[[0, 13009, 4000], "R U2 F'", "", 1548020659]]},
         {"1": {"name": "3x3", "opt": {}}},
     )

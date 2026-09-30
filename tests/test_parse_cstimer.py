@@ -18,8 +18,27 @@ def test_plus2_adds_penalty_and_dnf_is_dropped(write_export):
     )
 
     assert load_solves(path) == [
-        {"scramble": "R U R' U'", "time_ms": 12345, "session": "session1"},
-        {"scramble": "F2 R2 U'", "time_ms": 14345, "session": "session1"},
+        {"scramble": "R U R' U'", "time_ms": 12345, "session": "session1", "turns": None},
+        {"scramble": "F2 R2 U'", "time_ms": 14345, "session": "session1", "turns": None},
+    ]
+
+
+def test_smart_cube_turns_are_kept_with_their_times(write_export):
+    """A smart-cube solve has a fifth field: [turns, "333"], where turns is
+    one string of every turn and its time in ms since the first turn. It's
+    split into (move, ms) pairs. A solve without the smart cube has no turns.
+    """
+    path = write_export(
+        {"session1": [
+            [[0, 1500], "R U R' U'", "", 1790720582, ["U@0 R@350 U'@700 R'@1500", "333"]],
+            [[0, 12345], "F2 R2 U'", "", 1548020702],
+        ]},
+        {"1": {"name": "3x3", "opt": {}}},
+    )
+
+    assert [s["turns"] for s in load_solves(path)] == [
+        [("U", 0), ("R", 350), ("U'", 700), ("R'", 1500)],
+        None,
     ]
 
 

@@ -5,6 +5,8 @@ built on a full pattern database over the reduced cross-edge state space.
 Part 2 joins those numbers with real solve times from a csTimer export, to
 study how much the cross a scramble gives you affects the solve.
 
+https://github.com/user-attachments/assets/55091fe2-7d9a-424c-ae60-08ccb6013e38
+
 ## Setup
 
     pip install -r requirements.txt

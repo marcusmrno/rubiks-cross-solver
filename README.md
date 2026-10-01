@@ -5,7 +5,7 @@ built on a full pattern database over the reduced cross-edge state space.
 Part 2 joins those numbers with real solve times from a csTimer export, to
 study how much the cross a scramble gives you affects the solve.
 
-https://github.com/user-attachments/assets/6e25f812-2135-450c-8972-4e231c9c8108
+https://github.com/user-attachments/assets/85969666-bef3-4a9e-ac48-871cc80ceed5
 
 ## Setup
 

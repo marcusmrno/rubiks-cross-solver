@@ -34,8 +34,10 @@ def test_cli_prints_length_count_and_each_solution(dist, monkeypatch, capsys):
 
 
 def test_cli_accepts_scramble_as_separate_args(dist, monkeypatch, capsys):
-    """Unquoted moves arrive as separate argv entries; the CLI joins them back
-    into one scramble, so the output is the same as the quoted form.
+    """Moves passed as separate argv entries are joined back into one
+    scramble, so the output is the same as the quoted form. Typed unquoted,
+    this only works without primes: the shell reads ' as a quote mark, so
+    R U R' U' arrives as R, U, "R U".
     """
     args = ["R2", "F2", "U'", "F2", "U'", "R2", "F2"]
     assert _run_cli(args, dist, monkeypatch, capsys) == EXPECTED

@@ -28,14 +28,19 @@ yellow cross. For the white cross, swap U with D and F with B in the scramble
 (the pipeline below does this): `R U R' U'` has an intact yellow cross, but
 `python -m cube.cli "R D R' D'"` gives the white cross, `D R D' R'`.
 
-## Solve-time pipeline
+## Solve-time analysis
 
-    python -c "from analysis.pipeline import build_dataset; build_dataset('cstimer_export.txt')"
+    python -m analysis.analyze cstimer_export.txt
 
 Reads a csTimer export (two-handed 3x3 sessions only) and writes `solves.csv`:
 each solve's time, the optimal white-cross length and solution count, and, for
 smart-cube solves, when the cross was finished, in how many moves, and the
 pause before F2L.
+
+Then, for total time and the three smart-cube outcomes (cross time, whether
+the cross was optimal, the pause), it prints the mean at each cross length and
+the effect of one more optimal move and of twice as many optimal solutions,
+each with the other held fixed. `by_length.png` plots the means.
 
 ## Tests
 

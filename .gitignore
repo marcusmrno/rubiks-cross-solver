@@ -3,4 +3,4 @@ __pycache__/
 .pytest_cache/
 pdb_cache.pkl
 solves.csv
-correlation.png
+by_length.png
